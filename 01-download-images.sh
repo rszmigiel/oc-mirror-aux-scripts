@@ -36,7 +36,7 @@ if [ ! -d "$WORKDIR" ]; then
     exit 2
 fi
 
-REQUIRED_SPACE=$((1024 * 1024 * 100)) # 1TB in KB
+REQUIRED_SPACE=$((1024 * 1024 * 1024)) # 1TB in KB
 AVAILABLE=$(df -k --output=avail "$WORKDIR" | tail -n1)
 
 if [ "$AVAILABLE" -lt "$REQUIRED_SPACE" ]; then
