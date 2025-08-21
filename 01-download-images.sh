@@ -117,6 +117,12 @@ MIRROR_REG_URL="https://mirror.openshift.com/pub/cgw/mirror-registry/latest/mirr
 echo "⬇ Downloading $MIRROR_REG_URL..."
 curl -L "$MIRROR_REG_URL" -o "$MIRROR_REG_TAR"
 
+# ===== 9a. Download openshift-install tool =====
+OPENSHIFT_INSTALL_TAR="$TOOLS_DIR/openshift-install-linux-${OCP_VERSION}.tar.gz"
+OPENSHIFT_INSTALL_URL="https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/${OCP_VERSION}/openshift-install-linux-${OCP_VERSION}.tar.gz"
+echo "⬇ Downloading ${OPENSHIFT_INSTALL_URL}..."
+curl -L "$OPENSHIFT_INSTALL_URL" -o "$OPENSHIFT_INSTALL_TAR"
+
 # ===== 10. Download RPMs with dependencies =====
 PKGS="nmstate vim mkpasswd tmux bash-completion podman wget git butane skopeo coreos-installer nginx createrepo_c"
 
