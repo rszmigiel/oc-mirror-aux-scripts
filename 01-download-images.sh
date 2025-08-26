@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-LOGFILE="/var/log/mirror-$(date +%F_%H-%M-%S).log"
+LOGFILE="/var/log/mirror-download-$(date +%F_%H-%M-%S).log"
 exec > >(tee -a "$LOGFILE") 2>&1
 
 # ===== 1. Check subscription =====

@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-LOGFILE="/var/log/mirror-push-$(date +%F_%H-%M-%S).log"
+LOGFILE="/var/log/mirror-upload-$(date +%F_%H-%M-%S).log"
 exec > >(tee -a "$LOGFILE") 2>&1
 
 
