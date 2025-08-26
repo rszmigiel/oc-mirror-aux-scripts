@@ -28,6 +28,28 @@ MAJOR="${BASH_REMATCH[1]}"
 MINOR="${BASH_REMATCH[2]}"
 echo "✅ OpenShift version validated: $OCP_VERSION"
 
+# ===== 2a. Ask user for OpenShift version for upgrade =====
+read -rp "Enter OpenShift version (in case of upgrade planned) to mirror (format 4.X.Y, ie. 4.19.7). If upgrade isn't planned please enter the same version as above: " OCP_VERSION_UPGRADE
+
+if [[ ! "$OCP_VERSION_UPGRADE" =~ ^4\.([0-9]{1,2})\.([0-9]{1,2})$ ]]; then
+    echo "❌ Invalid format. Must be 4.<0-99>.<0-99> (e.g., 4.19.7)"
+    exit 1
+fi
+
+if [[ "$(printf '%s\n%s' "$OCP_VERSION" "$OCP_VERSION_UPGRADE" | sort -V | head -n1)" == "$OCP_VERSION" && "$OCP_VERSION" != "$OCP_VERSION_UPGRADE" ]]; then
+    echo "ℹ️ Mirroring images of $OCP_VERSION and $OCP_VERSION_UPGRADE for upgrade task."
+elif [[ "$OCP_VERSION" == "$OCP_VERSION_UPGRADE" ]]; then
+    echo "ℹ️ No upgrade is planned, $OCP_VERSION is equal $OCP_VERSION_UPGRADE."
+else
+    echo "❌ $OCP_VERSION is greater than $OCP_VERSION_UPGRADE"
+    exit 1
+fi
+
+MAJOR_UPGRADE="${BASH_REMATCH[1]}"
+MINOR_UPGRADE="${BASH_REMATCH[2]}"
+echo "✅ OpenShift upgrade version validated: $OCP_VERSION_UPGRADE"
+
+
 # ===== 3. Ask user for directory path & check space =====
 read -rp "Enter path to working directory: " WORKDIR
 
@@ -105,6 +127,17 @@ OC_URL="https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/$OCP_VE
 echo "⬇ Downloading $OC_URL..."
 curl -L "$OC_URL" -o "$OC_TAR"
 
+# ===== 7a. Download oc client for upgrade task =====
+if [[ "$OCP_VERSION" == "$OCP_VERSION_UPGRADE" ]]; then
+    echo "✅ No upgrade is planned."
+else
+    OC_TAR_UPGRADE="$TOOLS_DIR/openshift-client-linux-$OCP_VERSION_UPGRADE.tar.gz"
+    OC_URL_UPGRADE="https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/$OCP_VERSION_UPGRADE/openshift-client-linux-$OCP_VERSION_UPGRADE.tar.gz"
+    echo "⬇ Downloading $OC_URL_UPGRADE for upgrade task..."
+    curl -L "$OC_URL_UPGRADE" -o "$OC_TAR_UPGRADE"
+fi
+
+
 # ===== 8. Download oc-mirror tool =====
 OCM_TAR="$TOOLS_DIR/oc-mirror.rhel9.tar.gz"
 OC_MIRROR_URL="https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/oc-mirror.rhel9.tar.gz"
@@ -159,7 +192,7 @@ mirror:
     channels:
     - name: stable-4.$MAJOR
       minVersion: 4.$MAJOR.$MINOR
-      maxVersion: 4.$MAJOR.$MINOR
+      maxVersion: 4.$MAJOR.$MINOR_UPGRADE
     graph: true
   operators:
     - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.$MAJOR
