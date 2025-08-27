@@ -223,6 +223,8 @@ mirror:
        - name: ocs-client-operator
        - name: odf-operator
        - name: odf-dependencies
+       - name: recipe
+       - name: rook-ceph-operator
        - name: mcg-operator
        - name: openshift-cert-manager-operator
        - name: openshift-gitops-operator
@@ -231,6 +233,11 @@ mirror:
        - name: self-node-remediation
        - name: sriov-network-operator
        - name: web-terminal
+       - name: ocs-operator
+       - name: odf-csi-addons-operator
+       - name: odr-cluster-operator
+       - name: odr-hub-operator
+       - name: odf-prometheus-operator
     - catalog: registry.redhat.io/redhat/redhat-marketplace-index:v4.$MAJOR
       packages:
        - name: k10-kasten-operator-rhmp
@@ -244,7 +251,7 @@ echo "✅ ImageSetConfiguration file created at $IMGSET_FILE"
 
 # ===== 14. Run oc mirror =====
 echo "🚀 Running oc mirror..."
-oc mirror -c "$IMGSET_FILE" --cache-dir "$WORKDIR/cache" "file://$MIRROR_DIR" --v2
+oc mirror -c "$IMGSET_FILE" --cache-dir "$WORKDIR/cache" "file://$MIRROR_DIR" --v2 --retry-times 20 --retry-delay 5s
 
 echo "====================================================="
 echo "✅ All tasks completed successfully."
