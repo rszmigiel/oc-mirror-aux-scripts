@@ -157,7 +157,7 @@ echo "⬇ Downloading ${OPENSHIFT_INSTALL_URL}..."
 curl -L "$OPENSHIFT_INSTALL_URL" -o "$OPENSHIFT_INSTALL_TAR"
 
 # ===== 10. Download RPMs with dependencies =====
-PKGS="nmstate vim mkpasswd tmux bash-completion podman wget git butane skopeo coreos-installer nginx createrepo_c"
+PKGS="nmstate vim mkpasswd tmux bash-completion podman wget git butane skopeo coreos-installer nginx createrepo_c dnsmasq tcpdump"
 
 echo "⬇ Downloading RPMs with dependencies to $RPMS_DIR..."
 sudo dnf download --resolve --alldeps --destdir "$RPMS_DIR" $PKGS
