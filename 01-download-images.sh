@@ -222,6 +222,7 @@ mirror:
        - name: numaresources-operator
        - name: ocs-client-operator
        - name: odf-operator
+       - name: odf-dependencies
        - name: mcg-operator
        - name: openshift-cert-manager-operator
        - name: openshift-gitops-operator
