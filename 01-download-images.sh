@@ -233,6 +233,7 @@ mirror:
        - name: self-node-remediation
        - name: sriov-network-operator
        - name: web-terminal
+       - name: devworkspace-operator
        - name: ocs-operator
        - name: odf-csi-addons-operator
        - name: odr-cluster-operator
