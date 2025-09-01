@@ -72,6 +72,7 @@ read -rp "Enter bastion FQDN: " BASTION_FQDN
 
 if ping -c 1 -W 2 "${BASTION_FQDN}" > /dev/null 2>&1; then
   echo "✔ Host ${BASTION_FQDN} is reachable"
+  export NO_PROXY=${NO_PROXY},${BASTION_FQDN}
 else
   echo "❌ Host ${BASTION_FQDN} is not reachable"
   exit 1
