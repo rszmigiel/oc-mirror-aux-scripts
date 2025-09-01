@@ -43,8 +43,8 @@ else
 fi
 
 # ===== 1b. Ask user for Quay credentials ====
-read -rp "Enter USERNAME for Quay ${FQDN}:8443: " QUAY_USERNAME
-read -rp "Enter PASSWORD for Quay ${FQDN}:8443: " QUAY_PASSWORD
+read -rp "Enter USERNAME for Quay ${BASTION_FQDN}:8443: " QUAY_USERNAME
+read -rp "Enter PASSWORD for Quay ${BASTION_FQDN}:8443: " QUAY_PASSWORD
 
 
 
