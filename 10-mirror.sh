@@ -181,6 +181,10 @@ sudo dnf download --resolve --alldeps --destdir "$RPMS_DIR" $PKGS
 echo "ℹ Creating repo in $RPMS_DIR..."
 sudo createrepo "$RPMS_DIR"
 
+# ===== 10b. Disable all repos 
+echo "Disabling all enabled repos..."
+dnf config-manager --disable "*"
+
 # ===== 3. Add repository to the system =====
 REPO_FILE="/etc/yum.repos.d/local-mirror.repo"
 echo "Adding local repository to $REPO_FILE"
